@@ -1,5 +1,6 @@
 package com.projects.devin.opname.apps;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -33,10 +34,13 @@ public class OpnameInputActivity extends AppCompatActivity {
     private String relasi, judul, sku, isbn, distributor, username;
     private Integer harga;
 
+    public static Activity inputActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        inputActivity = this;
         setContentView(R.layout.activity_opname_input);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Input Opname");

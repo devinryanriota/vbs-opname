@@ -15,6 +15,7 @@ import com.projects.devin.opname.R;
 import com.projects.devin.opname.adapter.MenuGridAdapter;
 import com.projects.devin.opname.apps.MainMenuActivity;
 import com.projects.devin.opname.apps.OpnameRelasiActivity;
+import com.projects.devin.opname.apps.OpnameReportActivity;
 import com.projects.devin.opname.cls.MenuList;
 
 import java.util.ArrayList;
@@ -57,6 +58,8 @@ public class OpnameMenuFragment extends Fragment {
                 }
                 else if(lsMenu.get(position).getTitle().equalsIgnoreCase("Opname Report")){
                     //opname report
+                    Intent i = new Intent(getActivity(), OpnameReportActivity.class);
+                    startActivity(i);
                 }
             }
         });

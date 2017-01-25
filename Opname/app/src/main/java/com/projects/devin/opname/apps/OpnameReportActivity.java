@@ -133,8 +133,12 @@ public class OpnameReportActivity extends AppCompatActivity {
             osw.write(output);
             osw.flush();
             osw.close();
+            fOut.flush();
+            fOut.close();
 
+            Toast.makeText(getApplicationContext(), output, Toast.LENGTH_LONG).show();
             Toast.makeText(getApplicationContext(), "File hasil closing tersedia pada /StockOpname/" + fileName, Toast.LENGTH_LONG).show();
+            //finish();
         }
         catch(Exception e){
             e.printStackTrace();

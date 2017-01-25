@@ -44,17 +44,6 @@ public class LoginActivity extends AppCompatActivity {
                 doLogin();
             }
         });
-
-
-        Date date = new Date();
-        int day = date.getDate();
-        int month = date.getMonth() + 1;
-        int year = date.getYear() - 100;
-
-        usernameText.setText(String.valueOf(String.format("%02d", day)) + " - " + String.valueOf(String.format("%02d", month)) + " - " + String.valueOf(String.format("%02d", year)));
-
-        //Toast.makeText(getApplicationContext(), String.valueOf(day) + "-" + String.valueOf(month) + " - " + String.valueOf(year), Toast.LENGTH_LONG).show();
-
     }
 
     private void doLogin(){
