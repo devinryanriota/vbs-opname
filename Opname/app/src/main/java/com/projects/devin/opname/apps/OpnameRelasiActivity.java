@@ -37,6 +37,7 @@ public class OpnameRelasiActivity extends AppCompatActivity {
                 if(event.getAction() == KeyEvent.ACTION_DOWN){
                     switch(keyCode){
                         case KeyEvent.KEYCODE_ENTER:
+
                             String relasi = relasiText.getText().toString();
                             Intent i = new Intent(OpnameRelasiActivity.this, OpnameInputActivity.class);
                             i.putExtra("RELASI", relasi);

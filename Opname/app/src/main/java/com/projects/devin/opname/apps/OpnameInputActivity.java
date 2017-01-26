@@ -119,26 +119,30 @@ public class OpnameInputActivity extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(OpnameInputActivity.this)
-                        .setTitle("Opname")
-                        .setMessage("Apakah masih ada barang yang mau di opname?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //clear semua textview, edittext, masukkin ke db barang ini
-                                dialogYes();
+                if(kodeRakText.getText().toString().equals("")){
+                    kodeRakText.setError("Kode Rak must be filled!");
+                }
+                else{
+                    new AlertDialog.Builder(OpnameInputActivity.this)
+                            .setTitle("Opname")
+                            .setMessage("Apakah masih ada barang yang mau di opname?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //clear semua textview, edittext, masukkin ke db barang ini
+                                    dialogYes();
 
-                            }
-                        })
-                        .setNegativeButton("No, Closing", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //keluar dari menu input
-                                dialogNo();
-                            }
-                        })
-                        .show();
-            }
+                                }
+                            })
+                            .setNegativeButton("No, Closing", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //keluar dari menu input
+                                    dialogNo();
+                                }
+                            })
+                            .show();
+                }}
         });
 
         linError.setVisibility(View.GONE);
@@ -214,11 +218,38 @@ public class OpnameInputActivity extends AppCompatActivity {
         return insertID;
     }
 
+    private Integer checkLastRelasi(){
+        //cek relasi terakhir di database, kalo berbeda berarti closing baru dan data sebelum dihapus
+
+        DbHelper dbHelper = new DbHelper(OpnameInputActivity.this);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                OpnameContract.OpnameEntry.TABLE_NAME,
+                new String[]{
+                        OpnameContract.OpnameEntry.COLUMN_NAME_RELASI
+                },
+                null,
+                null,
+                null,
+                null,
+                OpnameContract.OpnameEntry._ID + " DESC",
+                "1"
+        );
+        cursor.moveToFirst();
+
+        if(cursor.getCount() == 0){ //database kosong
+        }
+        else if(cursor.getCount() == 1){
+            db.execSQL(OpnameContract.SQL_DELETE_OPNAME);
+            db.execSQL(OpnameContract.SQL_CREATE_OPNAME);
+        }
+        return 1;
+    }
+
     private void dialogYes(){
 
-        //validasi kode rak text, isbn
-
-        if(insertOpnameDB() != 0){
+        if(checkLastRelasi() == 1 && insertOpnameDB() != 0){
             Toast.makeText(getApplicationContext(), "Insert Success", Toast.LENGTH_SHORT).show();
             reset();
         }

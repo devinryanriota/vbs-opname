@@ -55,7 +55,7 @@ public class ImportMenuFragment extends Fragment {
         menuGrid = (GridView) view.findViewById(R.id.import_menu_grid);
         lsSKU = new ArrayList<SKU>();
         lsMenu = new ArrayList<>();
-        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_employee_attendance), "Import Master SKU"));
+        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_import_master), "Import Master SKU"));
 
         menuGrid.setAdapter(new MenuGridAdapter(getActivity(), lsMenu));
         menuGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {

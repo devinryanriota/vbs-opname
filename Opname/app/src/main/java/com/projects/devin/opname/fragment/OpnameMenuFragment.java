@@ -45,8 +45,8 @@ public class OpnameMenuFragment extends Fragment {
     private void initComponent(){
         menuGrid = (GridView) view.findViewById(R.id.opname_menu_grid);
         lsMenu = new ArrayList<>();
-        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_employee_attendance), "Opname"));
-        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_employee_attendance), "Opname Report"));
+        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_opname), "Opname"));
+        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_report), "Opname Report"));
 
         menuGrid.setAdapter(new MenuGridAdapter(getActivity(), lsMenu));
         menuGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {

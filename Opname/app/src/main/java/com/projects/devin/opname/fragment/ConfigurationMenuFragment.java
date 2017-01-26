@@ -45,9 +45,9 @@ public class ConfigurationMenuFragment extends Fragment {
     private void initComponent(){
         menuGrid = (GridView) view.findViewById(R.id.configuration_menu_grid);
         lsMenu = new ArrayList<>();
-        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_employee_attendance), "Change Password"));
-        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_employee_attendance), "Printer"));
-        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_employee_attendance), "Paper"));
+        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_change_password), "Change Password"));
+        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_printer), "Printer"));
+        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_paper), "Paper"));
 
         menuGrid.setAdapter(new MenuGridAdapter(getActivity(), lsMenu));
         menuGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {

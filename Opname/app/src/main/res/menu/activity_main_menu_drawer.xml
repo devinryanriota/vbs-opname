@@ -4,11 +4,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_import"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_import"
             android:title="Import Data" />
         <item
             android:id="@+id/nav_opname"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_note"
             android:title="Opname" />
         <item
             android:id="@+id/nav_configuration"
@@ -16,13 +16,18 @@
             android:title="Configuration" />
     </group>
 
-    <item>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout" />
+
+    </group>
+
+   <!-- <item>
         <menu>
-            <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Logout" />
+
         </menu>
-    </item>
+    </item>-->
 
 </menu>
