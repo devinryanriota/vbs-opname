@@ -64,7 +64,7 @@ public class OpnameListAdapter extends BaseAdapter {
         datetimeText = (TextView) convertView.findViewById(R.id.date_time_textview);
         loginNameText = (TextView) convertView.findViewById(R.id.login_name_textview);
 
-        itemnoText.setText(position + 1 + "");
+        itemnoText.setText("Item #" + (position + 1) + "");
         relasiText.setText(lsOpname.get(position).getRelasi());
         rakText.setText(lsOpname.get(position).getKodeRak());
         skuText.setText(lsOpname.get(position).getSKU());

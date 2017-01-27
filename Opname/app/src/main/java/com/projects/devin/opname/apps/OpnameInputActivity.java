@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -194,6 +196,10 @@ public class OpnameInputActivity extends AppCompatActivity {
             }
             else{
                 linError.setVisibility(View.VISIBLE);
+
+                ToneGenerator toneGenerator = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+                toneGenerator.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 300);
+
                 linResult.setVisibility(View.GONE);
             }
         }
@@ -250,14 +256,14 @@ public class OpnameInputActivity extends AppCompatActivity {
     private void dialogYes(){
 
         if(checkLastRelasi() == 1 && insertOpnameDB() != 0){
-            Toast.makeText(getApplicationContext(), "Insert Success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Insert Berhasil", Toast.LENGTH_SHORT).show();
             reset();
         }
     }
 
     private void dialogNo(){
         if(insertOpnameDB() != 0){
-            Toast.makeText(getApplicationContext(), "Insert Success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Insert Berhasil", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(OpnameInputActivity.this, OpnameReportActivity.class);
             startActivity(i);
             finish();

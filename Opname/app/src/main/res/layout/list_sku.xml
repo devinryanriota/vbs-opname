@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow>
+            <TextView
+                android:id="@+id/item_no_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="?android:attr/textAppearanceLarge"
+                android:textColor="@color/maroon"
+                android:text="Item #1"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:text="ISBN:"/>
+
+            <TextView
+                android:id="@+id/isbn_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:text="aaaa"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:text="SKU:"/>
+
+            <TextView
+                android:id="@+id/sku_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:text="aaaa"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:text="Judul:"/>
+
+            <TextView
+                android:id="@+id/judul_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:text="aaaa"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:text="Distributor:"/>
+
+            <TextView
+                android:id="@+id/distributor_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:text="aaaa"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:text="Harga Jual:"/>
+
+            <TextView
+                android:id="@+id/harga_jual_textview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                style="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:text="aaaa"/>
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

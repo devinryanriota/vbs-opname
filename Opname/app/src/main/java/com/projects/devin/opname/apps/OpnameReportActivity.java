@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -34,6 +35,8 @@ public class OpnameReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opname_report);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Opname Report");
 
         initComponent();
         getDataFromDB();
@@ -136,12 +139,24 @@ public class OpnameReportActivity extends AppCompatActivity {
             fOut.flush();
             fOut.close();
 
-            Toast.makeText(getApplicationContext(), output, Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), output, Toast.LENGTH_LONG).show();
             Toast.makeText(getApplicationContext(), "File hasil closing tersedia pada /StockOpname/" + fileName, Toast.LENGTH_LONG).show();
             //finish();
         }
         catch(Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public void onBackPressed(){
+        finish();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case android.R.id.home: onBackPressed();
+                return true;
+            default : return super.onOptionsItemSelected(item);
         }
     }
 }

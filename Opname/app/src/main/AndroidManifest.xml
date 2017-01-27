@@ -12,25 +12,55 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".apps.MainActivity" />
-        <activity android:name=".apps.LoginActivity">
+        <activity
+            android:name=".apps.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".apps.LoginActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".apps.OpnameRelasiActivity" />
-        <activity android:name=".apps.ConfigurationMenuActivity" />
-        <activity android:name=".apps.ChangePasswordActivity" />
+        <activity
+            android:name=".apps.OpnameRelasiActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".apps.ConfigurationMenuActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".apps.ChangePasswordActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".apps.MainMenuActivity"
+            android:configChanges="orientation"
             android:label="@string/title_activity_main_menu"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".apps.PrinterConfigActivity" />
-        <activity android:name=".apps.PaperConfigActivity" />
-        <activity android:name=".apps.OpnameInputActivity" />
-        <activity android:name=".apps.OpnameReportActivity"></activity>
+        <activity
+            android:name=".apps.PrinterConfigActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".apps.PaperConfigActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".apps.OpnameInputActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".apps.OpnameReportActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity android:name=".apps.SKUListActivity"></activity>
     </application>
 
 </manifest>

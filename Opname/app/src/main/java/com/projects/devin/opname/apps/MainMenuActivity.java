@@ -52,6 +52,9 @@ public class MainMenuActivity extends AppCompatActivity
         usernameText = (TextView) headerView.findViewById(R.id.username_text);
         usernameText.setText("User: " + username);
 
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.container_frame, new ImportMenuFragment()).commit();
+
     }
 
     private void getSharedPreferences(){

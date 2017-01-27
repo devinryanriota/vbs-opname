@@ -98,6 +98,9 @@
             android:id="@+id/error_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            style="?android:attr/textAppearanceLarge"
+            android:textColor="@color/maroon"
             android:gravity="center"
             android:text="Data Not Found"/>
 
@@ -194,6 +197,9 @@
             android:text="Selesai"/>
 
     </LinearLayout>
+
+
+
 
 </RelativeLayout>
 </ScrollView>

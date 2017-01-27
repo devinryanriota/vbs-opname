@@ -42,7 +42,7 @@ public class OpnameRelasiActivity extends AppCompatActivity {
                             Intent i = new Intent(OpnameRelasiActivity.this, OpnameInputActivity.class);
                             i.putExtra("RELASI", relasi);
                             startActivity(i);
-                            Toast.makeText(getApplicationContext(), relasi, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(), relasi, Toast.LENGTH_LONG).show();
                             break;
                         default:
                     }

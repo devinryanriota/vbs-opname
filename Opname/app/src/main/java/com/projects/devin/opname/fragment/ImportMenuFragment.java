@@ -19,6 +19,7 @@ import com.projects.devin.opname.R;
 import com.projects.devin.opname.adapter.MenuGridAdapter;
 import com.projects.devin.opname.apps.MainActivity;
 import com.projects.devin.opname.apps.MainMenuActivity;
+import com.projects.devin.opname.apps.SKUListActivity;
 import com.projects.devin.opname.cls.DbHelper;
 import com.projects.devin.opname.cls.MenuList;
 import com.projects.devin.opname.cls.SKU;
@@ -56,6 +57,7 @@ public class ImportMenuFragment extends Fragment {
         lsSKU = new ArrayList<SKU>();
         lsMenu = new ArrayList<>();
         lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_import_master), "Import Master SKU"));
+        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_import_master), "SKU Data List"));
 
         menuGrid.setAdapter(new MenuGridAdapter(getActivity(), lsMenu));
         menuGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -63,6 +65,10 @@ public class ImportMenuFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(lsMenu.get(position).getTitle().equalsIgnoreCase("Import Master SKU")){
                     importDataSKU();
+                }
+                else if(lsMenu.get(position).getTitle().equalsIgnoreCase("SKU Data List")){
+                    Intent i = new Intent(getActivity(), SKUListActivity.class);
+                    startActivity(i);
                 }
             }
         });
@@ -96,7 +102,7 @@ public class ImportMenuFragment extends Fragment {
             catch(Exception e){
                 e.printStackTrace();
             }
-            Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Data berhasil di-import dari text file!", Toast.LENGTH_LONG).show();
         }
         else{
             Toast.makeText(getActivity(), "File doesn't exists", Toast.LENGTH_SHORT).show();
