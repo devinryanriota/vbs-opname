@@ -5,10 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.projects.devin.opname.R;
@@ -30,6 +33,7 @@ public class OpnameReportActivity extends AppCompatActivity {
     private Button closingButton;
     private ListView opnameList;
     private List<Opname> lsOpname;
+    private TextView emptyText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,8 @@ public class OpnameReportActivity extends AppCompatActivity {
         lsOpname = new ArrayList<Opname>();
         closingButton = (Button) findViewById(R.id.closing_button);
         opnameList = (ListView) findViewById(R.id.opname_list);
+        emptyText = (TextView) findViewById(R.id.empty_text);
+        opnameList.setEmptyView(emptyText);
 
         closingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +102,12 @@ public class OpnameReportActivity extends AppCompatActivity {
             opname.setLoginName(cursor.getString(9));
 
             lsOpname.add(opname);
+        }
+        if(cursor.getCount() == 0){
+            closingButton.setVisibility(View.GONE);
+        }
+        else{
+            closingButton.setVisibility(View.VISIBLE);
         }
 
         opnameList.setAdapter(new OpnameListAdapter(getApplicationContext(), lsOpname));
@@ -148,6 +160,10 @@ public class OpnameReportActivity extends AppCompatActivity {
         }
     }
 
+    private void print(){
+
+    }
+
     public void onBackPressed(){
         finish();
     }
@@ -156,7 +172,20 @@ public class OpnameReportActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case android.R.id.home: onBackPressed();
                 return true;
-            default : return super.onOptionsItemSelected(item);
+            case R.id.print_opname_menu:
+                //print
+                break;
+            default : break;
         }
+        return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_report, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
 }

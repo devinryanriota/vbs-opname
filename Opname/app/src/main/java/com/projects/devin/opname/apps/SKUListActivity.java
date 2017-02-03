@@ -5,8 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ListViewCompat;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.projects.devin.opname.R;
 import com.projects.devin.opname.adapter.SKUListAdapter;
@@ -21,6 +24,7 @@ public class SKUListActivity extends AppCompatActivity {
 
     private ListView skuList;
     private List<SKU> lsSKU;
+    private TextView emptyText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,8 @@ public class SKUListActivity extends AppCompatActivity {
     private void initComponent(){
         skuList = (ListView) findViewById(R.id.sku_list);
         lsSKU = new ArrayList<SKU>();
+        emptyText = (TextView) findViewById(R.id.empty_text);
+        skuList.setEmptyView(emptyText);
     }
 
     private void getSKUData(){
@@ -73,6 +79,17 @@ public class SKUListActivity extends AppCompatActivity {
         skuList.setAdapter(new SKUListAdapter(getApplicationContext(), lsSKU));
     }
 
+    private void clearList(){
+        DbHelper dbHelper = new DbHelper(SKUListActivity.this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        db.execSQL(SKUContract.SQL_DELETE_SKU);
+        db.execSQL(SKUContract.SQL_CREATE_SKU);
+
+        lsSKU.clear();
+        skuList.setAdapter(new SKUListAdapter(getApplicationContext(), lsSKU));
+    }
+
     public void onBackPressed(){
         finish();
     }
@@ -81,7 +98,18 @@ public class SKUListActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case android.R.id.home: onBackPressed();
                 return true;
+            case R.id.clear_sku_menu:
+                clearList();
+                return true;
             default : return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_sku_list, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 }

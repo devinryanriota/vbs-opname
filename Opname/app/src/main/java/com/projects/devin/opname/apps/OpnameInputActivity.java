@@ -124,6 +124,9 @@ public class OpnameInputActivity extends AppCompatActivity {
                 if(kodeRakText.getText().toString().equals("")){
                     kodeRakText.setError("Kode Rak must be filled!");
                 }
+                else if(qtyTextView.getText().toString().equals("0")){
+                    Toast.makeText(getApplicationContext(), "Quantity barang tidak boleh kosong", Toast.LENGTH_SHORT).show();
+                }
                 else{
                     new AlertDialog.Builder(OpnameInputActivity.this)
                             .setTitle("Opname")

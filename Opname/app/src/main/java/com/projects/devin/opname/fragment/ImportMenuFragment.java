@@ -57,7 +57,7 @@ public class ImportMenuFragment extends Fragment {
         lsSKU = new ArrayList<SKU>();
         lsMenu = new ArrayList<>();
         lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_import_master), "Import Master SKU"));
-        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_import_master), "SKU Data List"));
+        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_data_list), "SKU Data List"));
 
         menuGrid.setAdapter(new MenuGridAdapter(getActivity(), lsMenu));
         menuGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
