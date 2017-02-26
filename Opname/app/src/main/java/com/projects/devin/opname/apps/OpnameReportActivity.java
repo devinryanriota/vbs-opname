@@ -1,14 +1,22 @@
 package com.projects.devin.opname.apps;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,9 +27,19 @@ import com.projects.devin.opname.adapter.OpnameListAdapter;
 import com.projects.devin.opname.cls.DbHelper;
 import com.projects.devin.opname.cls.Opname;
 import com.projects.devin.opname.cls.OpnameContract;
+import com.projects.devin.opname.cls.WebService;
+
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -139,7 +157,7 @@ public class OpnameReportActivity extends AppCompatActivity {
 
             String[] splt = lsOpname.get(0).getRelasi().split("-");
             String kodeRelasi = splt[0];
-            String fileName = String.valueOf(String.format("%02d", day)) + String.valueOf(String.format("%02d", month)) + String.valueOf(String.format("%02d", year)) + "_" + kodeRelasi + ".txt";
+            final String fileName = String.valueOf(String.format("%02d", day)) + String.valueOf(String.format("%02d", month)) + String.valueOf(String.format("%02d", year)) + "_" + kodeRelasi + ".txt";
 
             File f = new File(file, fileName);
             FileOutputStream fOut = new FileOutputStream(f);
@@ -151,13 +169,98 @@ public class OpnameReportActivity extends AppCompatActivity {
             fOut.flush();
             fOut.close();
 
-            //Toast.makeText(getApplicationContext(), output, Toast.LENGTH_LONG).show();
+            //dialog for uploading file
+            new AlertDialog.Builder(this)
+                    .setTitle("Upload to Server")
+                    .setMessage("Upload closing file to server?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //uploadFile(fileName);
+                            AsyncTaskUploadFile async = new AsyncTaskUploadFile();
+                            async.execute(fileName);
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .show();
+
             Toast.makeText(getApplicationContext(), "File hasil closing tersedia pada /StockOpname/" + fileName, Toast.LENGTH_LONG).show();
-            //finish();
         }
         catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    class AsyncTaskUploadFile extends AsyncTask<String, Void, String> {
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(OpnameReportActivity.this);
+            progressDialog.setMessage("Uploading File");
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String result = uploadFile(params[0]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.hide();
+            if(result.equalsIgnoreCase("success")){
+                Toast.makeText(getApplicationContext(), "Upload Success", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "Upload Failed", Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }
+
+    private String uploadFile(String fileName){
+        String result = "";
+        try{
+            String username = "";
+            String password = "";
+            String host = "";
+            FTPClient ftpClient = new FTPClient();
+            ftpClient.connect(host, 21);
+            boolean status = ftpClient.login(username, password);
+
+            if(FTPReply.isPositiveCompletion(ftpClient.getReplyCode())){
+                ftpClient.setFileType(FTP.ASCII_FILE_TYPE);
+                ftpClient.enterLocalPassiveMode();
+
+                File dir = Environment.getExternalStorageDirectory();
+                File file = new File(dir.getAbsolutePath(), "/StockOpname/" + fileName);
+                String srcFilePath = file.getAbsolutePath();
+
+                //upload
+                FileInputStream srcFileStream = new FileInputStream(new File(srcFilePath));
+                status = ftpClient.storeFile(fileName, srcFileStream);
+                srcFileStream.close();
+                result = "success";
+            }
+
+            ftpClient.logout();
+            ftpClient.disconnect();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            result = "failed";
+        }
+        return result;
     }
 
     private void print(){

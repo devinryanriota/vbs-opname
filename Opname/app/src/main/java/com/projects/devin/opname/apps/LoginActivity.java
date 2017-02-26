@@ -33,6 +33,10 @@ public class LoginActivity extends AppCompatActivity {
 
         initComponent();
         createDirectory();
+        File dir = Environment.getExternalStorageDirectory();
+        File file = new File(dir.getAbsolutePath(), "/StockOpname/250117_xxx.txt");
+        String a = file.getAbsolutePath();
+        Toast.makeText(getApplicationContext(), a, Toast.LENGTH_LONG).show();
     }
 
     protected void initComponent(){
