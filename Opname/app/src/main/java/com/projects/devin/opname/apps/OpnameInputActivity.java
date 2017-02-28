@@ -33,7 +33,7 @@ public class OpnameInputActivity extends AppCompatActivity {
     private TextView qtyTextView;
     private Button searchButton, plusButton, minusButton, finishButton;
     private LinearLayout linError, linResult;
-    private String relasi, judul, sku, isbn, distributor, username;
+    private String relasi, judul, sku, isbn, distributor, username, kodeRak;
     private Integer harga;
 
     public static Activity inputActivity;
@@ -258,8 +258,9 @@ public class OpnameInputActivity extends AppCompatActivity {
 
     private void dialogYes(){
 
-        if(checkLastRelasi() == 1 && insertOpnameDB() != 0){
+        if(insertOpnameDB() != 0){
             Toast.makeText(getApplicationContext(), "Insert Berhasil", Toast.LENGTH_SHORT).show();
+            kodeRak = kodeRakText.getText().toString();
             reset();
         }
     }
@@ -275,7 +276,7 @@ public class OpnameInputActivity extends AppCompatActivity {
     }
 
     private void reset(){
-        kodeRakText.setText("");
+        kodeRakText.setText(kodeRak);
         isbnText.setText("");
         judulText.setText("");
         hargaText.setText("");

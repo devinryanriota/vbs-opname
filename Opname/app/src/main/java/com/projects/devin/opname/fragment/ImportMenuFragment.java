@@ -76,6 +76,7 @@ public class ImportMenuFragment extends Fragment {
 
     private void importDataSKU(){
         //file txt di folder /StockOpname/master_sku.txt
+
         File file = new File(Environment.getExternalStorageDirectory(), "/StockOpname/master_sku.txt");
 
         if(file.exists()){

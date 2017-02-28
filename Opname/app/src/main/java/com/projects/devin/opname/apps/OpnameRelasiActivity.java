@@ -2,6 +2,7 @@ package com.projects.devin.opname.apps;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -11,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.projects.devin.opname.R;
+import com.projects.devin.opname.cls.DbHelper;
+import com.projects.devin.opname.cls.OpnameContract;
 
 public class OpnameRelasiActivity extends AppCompatActivity {
 
@@ -42,6 +45,12 @@ public class OpnameRelasiActivity extends AppCompatActivity {
                             Intent i = new Intent(OpnameRelasiActivity.this, OpnameInputActivity.class);
                             i.putExtra("RELASI", relasi);
                             startActivity(i);
+
+                            //clear last opname data
+                            DbHelper dbHelper = new DbHelper(OpnameRelasiActivity.this);
+                            SQLiteDatabase db = dbHelper.getReadableDatabase();
+                            db.execSQL(OpnameContract.SQL_DELETE_OPNAME);
+                            db.execSQL(OpnameContract.SQL_CREATE_OPNAME);
                             //Toast.makeText(getApplicationContext(), relasi, Toast.LENGTH_LONG).show();
                             break;
                         default:
