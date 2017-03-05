@@ -77,6 +77,38 @@ public class ImportMenuFragment extends Fragment {
     private void importDataSKU(){
         //file txt di folder /StockOpname/master_sku.txt
 
+        /*SKU sku = new SKU();
+        sku.setISBN("1-2222-2222-2");
+        sku.setSKU("123");
+        sku.setJudul("Jack and Jill");
+        sku.setDistributor("Gramedia");
+        sku.setStatus("Reguler");
+        sku.setHargaJual(Integer.valueOf("25000"));
+
+        lsSKU.add(sku);
+
+        sku = new SKU();
+        sku.setISBN("1-3333-3333-3");
+        sku.setSKU("123");
+        sku.setJudul("Harry Potter");
+        sku.setDistributor("Gramedia");
+        sku.setStatus("Cut Off");
+        sku.setHargaJual(Integer.valueOf("135000"));
+
+        lsSKU.add(sku);
+
+        sku = new SKU();
+        sku.setISBN("1-1111-1111-1");
+        sku.setSKU("123");
+        sku.setJudul("Adam");
+        sku.setDistributor("Gramedia");
+        sku.setStatus("Reguler");
+        sku.setHargaJual(Integer.valueOf("110000"));
+
+        lsSKU.add(sku);
+
+        insertDBSKU();*/
+
         File file = new File(Environment.getExternalStorageDirectory(), "/StockOpname/master_sku.txt");
 
         if(file.exists()){
@@ -91,7 +123,8 @@ public class ImportMenuFragment extends Fragment {
                     sku.setSKU(content[1]);
                     sku.setJudul(content[2]);
                     sku.setDistributor(content[3]);
-                    sku.setHargaJual(Integer.valueOf(content[4]));
+                    sku.setStatus(content[4]);
+                    sku.setHargaJual(Integer.valueOf(content[5]));
 
                     lsSKU.add(sku);
 
@@ -124,6 +157,7 @@ public class ImportMenuFragment extends Fragment {
             values.put(SKUContract.SKUEntry.COLUMN_NAME_SKU, lsSKU.get(i).getSKU());
             values.put(SKUContract.SKUEntry.COLUMN_NAME_JUDUL, lsSKU.get(i).getJudul());
             values.put(SKUContract.SKUEntry.COLUMN_NAME_DISTRIBUTOR, lsSKU.get(i).getDistributor());
+            values.put(SKUContract.SKUEntry.COLUMN_NAME_STATUS, lsSKU.get(i).getStatus());
             values.put(SKUContract.SKUEntry.COLUMN_NAME_HARGA_JUAL, lsSKU.get(i).getHargaJual());
 
             long insertID = db.insert(SKUContract.SKUEntry.TABLE_NAME, null, values);

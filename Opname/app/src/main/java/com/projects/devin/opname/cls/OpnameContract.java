@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 public class OpnameContract {
 
     public static final String SQL_CREATE_OPNAME = String.format(
-            "CREATE TABLE %s(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            "CREATE TABLE %s(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
             OpnameEntry.TABLE_NAME,
             String.format("%s INTEGER PRIMARY KEY AUTOINCREMENT", OpnameEntry._ID),
             String.format("%s VARCHAR(255)", OpnameEntry.COLUMN_NAME_RELASI),
@@ -18,6 +18,7 @@ public class OpnameContract {
             String.format("%s VARCHAR(255)", OpnameEntry.COLUMN_NAME_ISBN),
             String.format("%s VARCHAR(255)", OpnameEntry.COLUMN_NAME_JUDUL),
             String.format("%s VARCHAR(255)", OpnameEntry.COLUMN_NAME_DISTRIBUTOR),
+            String.format("%s VARCHAR(255)", OpnameEntry.COLUMN_NAME_STATUS),
             String.format("%s INTEGER", OpnameEntry.COLUMN_NAME_HARGA_JUAL),
             String.format("%s INTEGER", OpnameEntry.COLUMN_NAME_QTY),
             String.format("%s DATETIME DEFAULT CURRENT_TIMESTAMP", OpnameEntry.COLUMN_NAME_DATE),
@@ -37,9 +38,11 @@ public class OpnameContract {
         public static final String COLUMN_NAME_ISBN = "isbn";
         public static final String COLUMN_NAME_JUDUL = "judul_buku";
         public static final String COLUMN_NAME_DISTRIBUTOR = "distributor";
+        public static final String COLUMN_NAME_STATUS = "status";
         public static final String COLUMN_NAME_HARGA_JUAL = "harga_jual";
         public static final String COLUMN_NAME_QTY = "quantity";
         public static final String COLUMN_NAME_DATE = "date_time";
         public static final String COLUMN_NAME_LOGIN_NAME = "login_name";
+
     }
 }

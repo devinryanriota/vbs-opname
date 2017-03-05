@@ -1,10 +1,8 @@
 package com.projects.devin.opname.apps;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,73 +11,64 @@ import android.media.ToneGenerator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.projects.devin.opname.R;
 import com.projects.devin.opname.cls.DbHelper;
 import com.projects.devin.opname.cls.OpnameContract;
+import com.projects.devin.opname.cls.RakContract;
 import com.projects.devin.opname.cls.SKUContract;
 
-import org.w3c.dom.Text;
+import java.sql.SQLInput;
 
 public class OpnameInputActivity extends AppCompatActivity {
 
-    private EditText relasiText, kodeRakText, isbnText, judulText, hargaText;
-    private TextView qtyTextView;
-    private Button searchButton, plusButton, minusButton, finishButton;
+    private EditText kodeRakText, isbnText, relasiText, judulText, hargaText, distributorText, statusText, qtyText;
     private LinearLayout linError, linResult;
-    private String relasi, judul, sku, isbn, distributor, username, kodeRak;
+    private Button searchButton, plusButton, minusButton;
+    private String relasi, judul, sku, isbn, distributor, username, kodeRak, status;
     private Integer harga;
-
-    public static Activity inputActivity;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        inputActivity = this;
         setContentView(R.layout.activity_opname_input);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Input Opname");
 
         doGetExtras();
-        initComponent();
         getSharedPreferences();
-    }
-
-    private void doGetExtras(){
-        relasi = getIntent().getExtras().getString("RELASI");
-    }
-
-    private void getSharedPreferences(){
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("SESSION_PREFERENCES", MODE_PRIVATE);
-        username = pref.getString("username", "");
+        initComponent();
     }
 
     private void initComponent(){
-        relasiText = (EditText) findViewById(R.id.relasi_text);
-        kodeRakText = (EditText) findViewById(R.id.kode_rak_text);
+        kodeRakText = (EditText) findViewById(R.id.rak_text);
         isbnText = (EditText) findViewById(R.id.isbn_text);
+        relasiText = (EditText) findViewById(R.id.relasi_text);
         judulText = (EditText) findViewById(R.id.judul_text);
         hargaText = (EditText) findViewById(R.id.harga_text);
-        qtyTextView = (TextView) findViewById(R.id.qty_textview);
+        distributorText = (EditText) findViewById(R.id.distributor_text);
+        statusText = (EditText) findViewById(R.id.status_text);
+        qtyText = (EditText) findViewById(R.id.qty_text);
+        linError = (LinearLayout) findViewById(R.id.linear_error);
+        linResult = (LinearLayout) findViewById(R.id.linear_result);
         searchButton = (Button) findViewById(R.id.search_button);
         plusButton = (Button) findViewById(R.id.plus_button);
         minusButton = (Button) findViewById(R.id.minus_button);
-        finishButton = (Button) findViewById(R.id.finish_button);
-        linError = (LinearLayout) findViewById(R.id.linear_error);
-        linResult = (LinearLayout) findViewById(R.id.linear_result);
 
-        relasiText.setText(relasi);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchSKU();
+                qtyText.setFocusableInTouchMode(true);
+                qtyText.requestFocus();
+                isbnText.setFocusableInTouchMode(true);
+                isbnText.requestFocus();
             }
         });
 
@@ -101,57 +90,79 @@ public class OpnameInputActivity extends AppCompatActivity {
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Integer qty = Integer.valueOf(qtyTextView.getText().toString());
+                Integer qty = Integer.valueOf(qtyText.getText().toString());
                 qty++;
-                qtyTextView.setText(qty.toString());
+                qtyText.setText(qty.toString());
+                updateDatabase();
             }
         });
 
         minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Integer qty = Integer.valueOf(qtyTextView.getText().toString());
+                Integer qty = Integer.valueOf(qtyText.getText().toString());
                 if(qty > 0){
                     qty--;
                 }
-                qtyTextView.setText(qty.toString());
+                qtyText.setText(qty.toString());
+                updateDatabase();
             }
-        });
-
-        finishButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(kodeRakText.getText().toString().equals("")){
-                    kodeRakText.setError("Kode Rak must be filled!");
-                }
-                else if(qtyTextView.getText().toString().equals("0")){
-                    Toast.makeText(getApplicationContext(), "Quantity barang tidak boleh kosong", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    new AlertDialog.Builder(OpnameInputActivity.this)
-                            .setTitle("Opname")
-                            .setMessage("Apakah masih ada barang yang mau di opname?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //clear semua textview, edittext, masukkin ke db barang ini
-                                    dialogYes();
-
-                                }
-                            })
-                            .setNegativeButton("No, Closing", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //keluar dari menu input
-                                    dialogNo();
-                                }
-                            })
-                            .show();
-                }}
         });
 
         linError.setVisibility(View.GONE);
         linResult.setVisibility(View.GONE);
+
+        kodeRakText.setText(kodeRak);
+    }
+
+    private void doGetExtras(){
+        relasi = getIntent().getExtras().getString("RELASI");
+        kodeRak = getIntent().getExtras().getString("KODE_RAK");
+    }
+
+    private void getSharedPreferences(){
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("SESSION_PREFERENCES", MODE_PRIVATE);
+        username = pref.getString("username", "");
+    }
+
+    private void addToDatabase(){
+        DbHelper dbHelper = new DbHelper(OpnameInputActivity.this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_RELASI, relasi);
+        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_RAK, kodeRak);
+        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_SKU, sku);
+        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_ISBN, isbnText.getText().toString());
+        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_JUDUL, judul);
+        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_DISTRIBUTOR, distributor);
+        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_HARGA_JUAL, harga);
+        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_QTY, Integer.valueOf(qtyText.getText().toString()));
+        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_LOGIN_NAME, username);
+
+        long insertID = db.insert(OpnameContract.OpnameEntry.TABLE_NAME, null, values);
+        //return insertID;
+    }
+
+    private void updateDatabase(){
+        DbHelper dbHelper = new DbHelper(OpnameInputActivity.this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(OpnameContract.OpnameEntry.COLUMN_NAME_QTY, Integer.valueOf(qtyText.getText().toString()));
+
+        int res = db.update(
+                OpnameContract.OpnameEntry.TABLE_NAME,
+                cv,
+                String.format("%s=? AND %s=? AND %s=?", OpnameContract.OpnameEntry.COLUMN_NAME_RELASI,
+                        OpnameContract.OpnameEntry.COLUMN_NAME_RAK,
+                        OpnameContract.OpnameEntry.COLUMN_NAME_ISBN),
+                new String[]{
+                        relasi,
+                        kodeRak,
+                        isbnText.getText().toString()
+                }
+        );
     }
 
     private void searchSKU(){
@@ -170,13 +181,14 @@ public class OpnameInputActivity extends AppCompatActivity {
                             SKUContract.SKUEntry.COLUMN_NAME_HARGA_JUAL,
                             SKUContract.SKUEntry.COLUMN_NAME_SKU,
                             SKUContract.SKUEntry.COLUMN_NAME_ISBN,
-                            SKUContract.SKUEntry.COLUMN_NAME_DISTRIBUTOR
+                            SKUContract.SKUEntry.COLUMN_NAME_DISTRIBUTOR,
+                            SKUContract.SKUEntry.COLUMN_NAME_STATUS
                     },
                     String.format("%s = ?",
                             SKUContract.SKUEntry.COLUMN_NAME_ISBN
                     ),
                     new String[]{
-                        isbn
+                            isbn
                     },
                     null,
                     null,
@@ -190,12 +202,38 @@ public class OpnameInputActivity extends AppCompatActivity {
                 sku = cursor.getString(2);
                 isbn = cursor.getString(3);
                 distributor = cursor.getString(4);
+                status = cursor.getString(5);
 
                 linError.setVisibility(View.GONE);
                 linResult.setVisibility(View.VISIBLE);
                 judulText.setText(judul);
                 hargaText.setText(harga.toString());
-                qtyTextView.setText("0");
+                distributorText.setText(distributor);
+                statusText.setText(status);
+
+                if(status.equalsIgnoreCase("Cut Off")){
+                    new AlertDialog.Builder(OpnameInputActivity.this)
+                            .setTitle("Cut-Off")
+                            .setMessage("Buku berstatus cut-off!")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .show();
+                }
+
+                Integer q = checkISBN();
+                if(q == 0){
+                    qtyText.setText("1");
+                    addToDatabase();
+                }
+                else{
+                    q++;
+                    qtyText.setText(q.toString());
+                    updateDatabase();
+                }
+
             }
             else{
                 linError.setVisibility(View.VISIBLE);
@@ -208,81 +246,48 @@ public class OpnameInputActivity extends AppCompatActivity {
         }
     }
 
-    private long insertOpnameDB(){
-        DbHelper dbHelper = new DbHelper(OpnameInputActivity.this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_RELASI, relasi);
-        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_RAK, kodeRakText.getText().toString());
-        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_SKU, sku);
-        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_ISBN, isbnText.getText().toString());
-        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_JUDUL, judul);
-        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_DISTRIBUTOR, distributor);
-        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_HARGA_JUAL, harga);
-        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_QTY, Integer.valueOf(qtyTextView.getText().toString()));
-        values.put(OpnameContract.OpnameEntry.COLUMN_NAME_LOGIN_NAME, username);
-
-        long insertID = db.insert(OpnameContract.OpnameEntry.TABLE_NAME, null, values);
-        return insertID;
-    }
-
-    private Integer checkLastRelasi(){
-        //cek relasi terakhir di database, kalo berbeda berarti closing baru dan data sebelum dihapus
-
+    private Integer checkISBN(){
         DbHelper dbHelper = new DbHelper(OpnameInputActivity.this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor cursor = db.query(
                 OpnameContract.OpnameEntry.TABLE_NAME,
                 new String[]{
-                        OpnameContract.OpnameEntry.COLUMN_NAME_RELASI
+                        OpnameContract.OpnameEntry.COLUMN_NAME_ISBN,
+                        OpnameContract.OpnameEntry.COLUMN_NAME_QTY
+                },
+                String.format("%s=? AND %s=? AND %s=?", OpnameContract.OpnameEntry.COLUMN_NAME_RELASI,
+                        OpnameContract.OpnameEntry.COLUMN_NAME_RAK,
+                        OpnameContract.OpnameEntry.COLUMN_NAME_ISBN),
+                new String[]{
+                        relasi,
+                        kodeRak,
+                        isbnText.getText().toString()
                 },
                 null,
                 null,
-                null,
-                null,
-                OpnameContract.OpnameEntry._ID + " DESC",
-                "1"
+                null
         );
         cursor.moveToFirst();
 
-        if(cursor.getCount() == 0){ //database kosong
+        if(cursor.getCount() == 0){ //kalo 0 brarti belum ada di db dengan isbn segitu
+            return 0;
         }
-        else if(cursor.getCount() == 1){
-            db.execSQL(OpnameContract.SQL_DELETE_OPNAME);
-            db.execSQL(OpnameContract.SQL_CREATE_OPNAME);
-        }
-        return 1;
-    }
-
-    private void dialogYes(){
-
-        if(insertOpnameDB() != 0){
-            Toast.makeText(getApplicationContext(), "Insert Berhasil", Toast.LENGTH_SHORT).show();
-            kodeRak = kodeRakText.getText().toString();
-            reset();
+        else{
+            return cursor.getInt(1);
         }
     }
 
-    private void dialogNo(){
-        if(insertOpnameDB() != 0){
-            Toast.makeText(getApplicationContext(), "Insert Berhasil", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(OpnameInputActivity.this, OpnameReportActivity.class);
-            startActivity(i);
-            finish();
-            OpnameRelasiActivity.relasiActivity.finish();
-        }
+    public void onBackPressed(){
+        finish();
     }
 
-    private void reset(){
-        kodeRakText.setText(kodeRak);
-        isbnText.setText("");
-        judulText.setText("");
-        hargaText.setText("");
-        qtyTextView.setText("0");
-
-        linResult.setVisibility(View.GONE);
-        linError.setVisibility(View.GONE);
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case android.R.id.home: onBackPressed();
+                return true;
+            default : break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

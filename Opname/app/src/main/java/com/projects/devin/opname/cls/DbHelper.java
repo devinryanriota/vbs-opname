@@ -28,6 +28,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.execSQL(SKUContract.SQL_CREATE_SKU);
         db.execSQL(OpnameContract.SQL_CREATE_OPNAME);
+        db.execSQL(RakContract.SQL_CREATE_RAK);
     }
 
     @Override
@@ -35,6 +36,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(UserContract.SQL_DELETE_USER);
         db.execSQL(SKUContract.SQL_DELETE_SKU);
         db.execSQL(OpnameContract.SQL_DELETE_OPNAME);
+        db.execSQL(RakContract.SQL_DELETE_RAK);
         onCreate(db);
     }
 

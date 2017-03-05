@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.projects.devin.opname.R;
 import com.projects.devin.opname.cls.DbHelper;
@@ -42,7 +41,7 @@ public class OpnameRelasiActivity extends AppCompatActivity {
                         case KeyEvent.KEYCODE_ENTER:
 
                             String relasi = relasiText.getText().toString();
-                            Intent i = new Intent(OpnameRelasiActivity.this, OpnameInputActivity.class);
+                            Intent i = new Intent(OpnameRelasiActivity.this, OpnameRakActivity.class);
                             i.putExtra("RELASI", relasi);
                             startActivity(i);
 

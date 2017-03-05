@@ -22,7 +22,7 @@ public class OpnameListAdapter extends BaseAdapter {
 
     private Context context = null;
     private List<Opname> lsOpname;
-    private TextView itemnoText, relasiText, rakText, skuText, isbnText, judulText, distributorText, hargaText, qtyText, datetimeText, loginNameText;
+    private TextView itemnoText, relasiText, rakText, skuText, isbnText, judulText, distributorText, hargaText, qtyText, datetimeText, loginNameText, statusText;
 
     public OpnameListAdapter(Context context, List<Opname> lsOpname){
         this.context = context;
@@ -63,6 +63,7 @@ public class OpnameListAdapter extends BaseAdapter {
         qtyText = (TextView) convertView.findViewById(R.id.qty_textview);
         datetimeText = (TextView) convertView.findViewById(R.id.date_time_textview);
         loginNameText = (TextView) convertView.findViewById(R.id.login_name_textview);
+        statusText = (TextView) convertView.findViewById(R.id.status_textview);
 
         itemnoText.setText("Item #" + (position + 1) + "");
         relasiText.setText(lsOpname.get(position).getRelasi());
@@ -75,6 +76,7 @@ public class OpnameListAdapter extends BaseAdapter {
         qtyText.setText(lsOpname.get(position).getQty().toString());
         datetimeText.setText(lsOpname.get(position).getDateTime());
         loginNameText.setText(lsOpname.get(position).getLoginName());
+        statusText.setText(lsOpname.get(position).getStatus());
 
         return convertView;
     }

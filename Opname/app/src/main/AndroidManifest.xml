@@ -53,14 +53,16 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".apps.OpnameInputActivity"
+            android:name=".apps.OpnameRakActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
             android:name=".apps.OpnameReportActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
-        <activity android:name=".apps.SKUListActivity"></activity>
+        <activity android:name=".apps.SKUListActivity" />
+        <activity android:name=".apps.OpnameInputActivity" />
+        <activity android:name=".apps.OpnameViewActivity"></activity>
     </application>
 
 </manifest>
