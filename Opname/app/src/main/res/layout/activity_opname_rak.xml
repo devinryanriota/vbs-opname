@@ -52,7 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/rak_textview"
         android:layout_alignParentRight="true"
-        android:text="Add Rak"/>
+        android:text="Add Rak"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 
     <TableLayout
         android:id="@+id/table_rak"

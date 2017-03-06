@@ -233,7 +233,6 @@ public class OpnameInputActivity extends AppCompatActivity {
                     qtyText.setText(q.toString());
                     updateDatabase();
                 }
-
             }
             else{
                 linError.setVisibility(View.VISIBLE);
