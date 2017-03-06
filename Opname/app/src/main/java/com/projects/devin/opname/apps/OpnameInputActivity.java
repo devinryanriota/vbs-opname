@@ -60,11 +60,11 @@ public class OpnameInputActivity extends AppCompatActivity {
         qtyText = (EditText) findViewById(R.id.qty_text);
         linError = (LinearLayout) findViewById(R.id.linear_error);
         linResult = (LinearLayout) findViewById(R.id.linear_result);
-        searchButton = (Button) findViewById(R.id.search_button);
+        //searchButton = (Button) findViewById(R.id.search_button);
         plusButton = (Button) findViewById(R.id.plus_button);
         minusButton = (Button) findViewById(R.id.minus_button);
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        /*searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchSKU();
@@ -73,7 +73,7 @@ public class OpnameInputActivity extends AppCompatActivity {
                 isbnText.setFocusableInTouchMode(true);
                 isbnText.requestFocus();
             }
-        });
+        });*/
 
         isbnText.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -149,6 +149,7 @@ public class OpnameInputActivity extends AppCompatActivity {
             public void onFinish() {
                 qtyText.setFocusable(true);
                 qtyText.setFocusableInTouchMode(true);
+                isbnText.requestFocus();
             }
         }.start();
     }
