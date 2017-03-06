@@ -79,6 +79,10 @@ public class OpnameInputActivity extends AppCompatActivity {
                     switch(keyCode){
                         case KeyEvent.KEYCODE_ENTER:
                             searchSKU();
+                            qtyText.setFocusableInTouchMode(true);
+                            qtyText.requestFocus();
+                            isbnText.setFocusableInTouchMode(true);
+                            isbnText.requestFocus();
                             break;
                         default:
                     }
