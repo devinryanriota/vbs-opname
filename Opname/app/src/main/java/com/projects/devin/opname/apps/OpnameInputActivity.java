@@ -8,8 +8,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -79,15 +82,17 @@ public class OpnameInputActivity extends AppCompatActivity {
                     switch(keyCode){
                         case KeyEvent.KEYCODE_ENTER:
                             searchSKU();
-                            qtyText.setFocusableInTouchMode(true);
-                            qtyText.requestFocus();
-                            isbnText.setFocusableInTouchMode(true);
+                            qtyText.clearFocus();
+                            isbnText.clearFocus();
                             isbnText.requestFocus();
-                            break;
+                            qtyText.setFocusableInTouchMode(false);
+                            qtyText.setFocusable(false);
+                            returnFocus();
+                            return true;
                         default:
                     }
                 }
-                return false;
+                return OpnameInputActivity.super.onKeyDown(keyCode, event);
             }
         });
 
@@ -113,10 +118,51 @@ public class OpnameInputActivity extends AppCompatActivity {
             }
         });
 
+        qtyText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateDatabase();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         linError.setVisibility(View.GONE);
         linResult.setVisibility(View.GONE);
 
         kodeRakText.setText(kodeRak);
+    }
+
+    private void returnFocus(){
+        CountDownTimer counter = new CountDownTimer(1000, 1000){
+            public void onTick(long millisUntilDone){
+            }
+
+            public void onFinish() {
+                qtyText.setFocusable(true);
+                qtyText.setFocusableInTouchMode(true);
+            }
+        }.start();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if (keyCode==KeyEvent.KEYCODE_ENTER)
+        {
+            // Just ignore the [Enter] key
+            return true;
+        }
+        // Handle all other keys in the default way
+        return super.onKeyDown(keyCode, event);
     }
 
     private void doGetExtras(){
@@ -237,6 +283,9 @@ public class OpnameInputActivity extends AppCompatActivity {
                     qtyText.setText(q.toString());
                     updateDatabase();
                 }
+                //isbnText.setFocusable(true);
+                isbnText.clearFocus();
+                isbnText.requestFocus();
             }
             else{
                 linError.setVisibility(View.VISIBLE);
