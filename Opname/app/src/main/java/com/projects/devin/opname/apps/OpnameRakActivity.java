@@ -55,7 +55,7 @@ public class OpnameRakActivity extends AppCompatActivity {
     private EditText relasiText;
     private Button addRakButton, closingButton;
     private TableLayout tabRak;
-    private String relasi, username, kodeRak;
+    private String relasi, username, kodeRak, beforeRak;
     //private List<String> lsRak;
     private List<Rak> lsRak;
     private List<Opname> lsOpname;
@@ -152,6 +152,19 @@ public class OpnameRakActivity extends AppCompatActivity {
                         id.toString()
                 }
         );
+
+        cv = new ContentValues();
+        cv.put(OpnameContract.OpnameEntry.COLUMN_NAME_RAK, kodeRak);
+
+        int res2 = db.update(
+                OpnameContract.OpnameEntry.TABLE_NAME,
+                cv,
+                String.format("%s=? AND %s=?", OpnameContract.OpnameEntry.COLUMN_NAME_RELASI, OpnameContract.OpnameEntry.COLUMN_NAME_RAK),
+                new String[]{
+                        relasi,
+                        beforeRak
+                }
+        );
     }
 
     private void deleteFromDatabase(Integer id, String k){
@@ -235,7 +248,7 @@ public class OpnameRakActivity extends AppCompatActivity {
         rakText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                beforeRak = rakText.getText().toString();
             }
 
             @Override

@@ -46,7 +46,7 @@ public class OpnameMenuFragment extends Fragment {
         menuGrid = (GridView) view.findViewById(R.id.opname_menu_grid);
         lsMenu = new ArrayList<>();
         lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_opname), "Opname"));
-        lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_report), "Opname Report"));
+        //lsMenu.add(new MenuList(BitmapFactory.decodeResource(getResources(), R.drawable.ic_report), "Opname Report"));
 
         menuGrid.setAdapter(new MenuGridAdapter(getActivity(), lsMenu));
         menuGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -56,11 +56,11 @@ public class OpnameMenuFragment extends Fragment {
                     Intent i = new Intent(getActivity(), OpnameRelasiActivity.class);
                     startActivity(i);
                 }
-                else if(lsMenu.get(position).getTitle().equalsIgnoreCase("Opname Report")){
+                /*else if(lsMenu.get(position).getTitle().equalsIgnoreCase("Opname Report")){
                     //opname report
                     Intent i = new Intent(getActivity(), OpnameReportActivity.class);
                     startActivity(i);
-                }
+                }*/
             }
         });
     }
