@@ -66,12 +66,12 @@
                     android:selectAllOnFocus="true"
                     android:singleLine="true"/>
 
-                <!--<Button
+                <Button
                     android:id="@+id/search_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Search"/>-->
+                    android:text="Search"/>
             </TableRow>
         </TableLayout>
 
